@@ -29,6 +29,7 @@ function layThongTinNV() {
 
     var newNV = new NhanVien(tknv, name, email, password, datepicker, luongCB, chucvu, gioLam);
     newNV.tinhLuong();
+    newNV.xepLoaiNhanVien();
 
     return newNV;
 }
@@ -46,8 +47,17 @@ function renderDSNV(arr) {
                 <td>${nv.chucVu}</td>
                 <td>${nv.tongLuong}</td>
                 <td>${nv.loaiNV}</td>
+                <td>
+                    <button onclick="handleDeleteNV(${nv.taiKhoan})" class="btn btn-danger">Delete</button>
+                </td>
             </tr>`
     });
+}
+
+function handleDeleteNV(taiKhoan) {
+    const newArr = dsnv.arr.filter(nv => nv.taiKhoan != taiKhoan);
+    dsnv.arr = newArr;
+    renderDSNV(newArr);
 }
 
 

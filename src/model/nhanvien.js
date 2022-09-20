@@ -23,6 +23,12 @@ function NhanVien(taiKhoan, hoTen, email, matKhau, ngayLam, luongCoBan, chucVu, 
         }
     }
     this.xepLoaiNhanVien = function () {
-
+        var soGioLam = this.gioLamTrongThang;
+        var xepLoai = ""
+        if (soGioLam >= 192) xepLoai = "Xuất sắc";
+        else if (soGioLam >= 176) xepLoai = "Giỏi";
+        else if (soGioLam >= 160) xepLoai = "Khá";
+        else xepLoai = "Trung bình";
+        this.loaiNV = xepLoai;
     }
 }
