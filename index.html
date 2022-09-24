@@ -194,7 +194,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-user"></i></span>
 								</div>
-								<input type="text" name="tk" id="tknv" class="form-control input-sm"
+								<input type="number" name="tk" id="tknv" class="form-control input-sm"
 									placeholder="Tài khoản">
 							</div>
 
@@ -252,7 +252,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-money" aria-hidden="true"></i></span>
 								</div>
-								<input type="text" name="luongCB" id="luongCB" class="form-control input-sm"
+								<input type="number" name="luongCB" min="1000000" max="20000000" id="luongCB" class="form-control input-sm"
 									placeholder="Lương cơ bản">
 							</div>
 							<span class="sp-thongbao" id="tbLuongCB"></span>
@@ -277,7 +277,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
 								</div>
-								<input type="text" name="gioLam" id="gioLam" class="form-control input-sm"
+								<input type="number" name="gioLam" min="80" max="200" id="gioLam" class="form-control input-sm"
 									placeholder="Giờ làm">
 							</div>
 							<span class="sp-thongbao" id="tbGiolam"></span>
@@ -328,6 +328,7 @@
 	<!-- my javascript -->
 	<script src="./src/model/nhanvien.js"></script>
 	<script src="./src/model/dsnv.js"></script>
+	<script src="./src/model/validation.js"></script>
 	<script src="./src/controller/main.js"></script>
 </body>
 

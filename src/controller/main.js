@@ -1,23 +1,28 @@
 // Quản lý danh sách nhân viên
 const dsnv = new DSNV();
+const validation = new Validation();
 
 $$("btnThemNV").onclick = function () {
     var newNV = layThongTinNV();
-    dsnv.themNV(newNV);
-    renderDSNV(dsnv.arr); //Render table
-    $$("btnDong").click(); //Đóng modal
+    if (newNV) {
+        dsnv.themNV(newNV);
+        renderDSNV(dsnv.arr); //Render table
+        $$("btnDong").click(); //Đóng modal
+    }
 }
 
 $$("btnCapNhat").onclick = function () {
     var nvNew = layThongTinNV();
-    for (var i = 0; i < dsnv.arr.length; i++) {
-        if (dsnv.arr[i].taiKhoan === nvNew.taiKhoan) {
-            dsnv.arr[i] = nvNew;
-            break;
+    if (nvNew) {
+        for (var i = 0; i < dsnv.arr.length; i++) {
+            if (dsnv.arr[i].taiKhoan === nvNew.taiKhoan) {
+                dsnv.arr[i] = nvNew;
+                break;
+            }
         }
+        $$("btnDong").click();
+        renderDSNV(dsnv.arr);
     }
-    $$("btnDong").click();
-    renderDSNV(dsnv.arr);
 }
 
 $$("btnThem").onclick = function () {
@@ -52,11 +57,45 @@ function layThongTinNV() {
     var chucvu = $$("chucvu").value;
     var gioLam = $$("gioLam").value;
 
-    var newNV = new NhanVien(tknv, name, email, password, datepicker, luongCB, chucvu, gioLam);
-    newNV.tinhLuong();
-    newNV.xepLoaiNhanVien();
+    let isValid = true;
 
-    return newNV;
+    isValid &= validation.kiemTraRong(tknv, "tbTKNV", "(*) Vui lòng nhập tên tài khoản.") && validation.kiemTraDoDaiKiTu(tknv, "tbTKNV", "(*) Vui lòng nhập từ 4 - 6 kí số.", 4, 6);
+
+    isValid &= validation.kiemTraRong(name, "tbTen", "(*) Vui lòng nhập họ tên.");
+
+    isValid &= validation.kiemTraRong(email, "tbEmail", "(*) Vui lòng nhập email.");
+
+    isValid &= validation.kiemTraRong(password, "tbMatKhau", "(*) Vui lòng nhập password.");
+
+    isValid &= validation.kiemTraRong(datepicker, "tbNgay", "(*) Vui lòng chọn ngày làm.");
+
+    isValid &= validation.kiemTraRong(luongCB, "tbLuongCB", "(*) Vui lòng nhập lương cơ bản.");
+
+    isValid &= validation.kiemTraRong(chucvu, "tbChucVu", "(*) Vui lòng chọn chức vụ hợp lệ (Giám đốc, Trưởng phòng, Nhân viên).");
+
+    isValid &= validation.kiemTraRong(gioLam, "tbGiolam", "(*) Vui lòng nhập giờ làm.");
+
+    isValid &= validation.kiemTraChuoiKiTu(name, "tbTen", "(*) Tên nhân viên phải là chữ.");
+
+    isValid &= validation.kiemTraEmail(email, "tbEmail", "(*) Email chưa đúng định dạng.");
+
+    isValid &= validation.kiemTraMatKhau(password, "tbMatKhau", "(*) Mật khẩu phải từ 6 - 10 kí tự (chứa ít nhất 1 kí số, 1 kí tự in hoa, 1 kí tự đặt biệt).");
+
+    isValid &= validation.kiemTraKhoangGiaTri(luongCB, "tbLuongCB", "(*) Lương cơ bản từ 1,000,000 - 20,000,000.", 1000000, 20000000);
+
+    isValid &= validation.kiemTraKhoangGiaTri(gioLam, "tbGiolam", "(*) Số giờ làm trong tháng từ 80 - 200 giờ.", 80, 200);
+
+
+
+    if (isValid) {
+        var newNV = new NhanVien(tknv, name, email, password, datepicker, luongCB, chucvu, gioLam);
+        newNV.tinhLuong();
+        newNV.xepLoaiNhanVien();
+
+        return newNV;
+    }
+
+    return null;
 }
 
 function resetForm() {
