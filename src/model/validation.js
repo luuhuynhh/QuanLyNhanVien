@@ -82,4 +82,26 @@ function Validation() {
         $$(idErr).style.display = "none";
         return true;
     }
+
+    this.kiemTraMaNVTrung = function (value, idErr, mess, arr) {
+        var isExist = false;
+
+        for (var i = 0; i < arr.length; i++) {
+            var sv = arr[i];
+            if (sv.taiKhoan === value) {
+                isExist = true;
+                break;
+            }
+        }
+
+        if (isExist) {
+            $$(idErr).innerHTML = mess;
+            $$(idErr).style.display = "block";
+            return false;
+        }
+
+        $$(idErr).innerHTML = "";
+        $$(idErr).style.display = "none";
+        return true;
+    };
 }
