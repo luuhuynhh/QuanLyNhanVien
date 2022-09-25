@@ -38,13 +38,16 @@ $$("btnThem").onclick = function () {
 
 $$("btnTimNV").onclick = function () {
     var keySearch = $$("searchName").value;
-    if (keySearch) {
-        var filterNV = dsnv.arr.filter(nv => nv.loaiNV.toLowerCase().includes(keySearch.toLowerCase()));
-        renderDSNV(filterNV);
-    } else {
-        renderDSNV(dsnv.arr);
-    }
+    var filterNV = dsnv.timKiemNhanVien(keySearch);
+    renderDSNV(filterNV);
 }
+
+$$("searchName").onkeyup = function () {
+    console.log("keyup");
+    var keyword = $$("searchName").value;
+    var filterNV = dsnv.timKiemNhanVien(keyword);
+    renderDSNV(filterNV);
+};
 
 // Hàm DOM by id
 function $$(id) {
@@ -68,6 +71,8 @@ function layThongTinNV(isNew) {
     }
 
     isValid &= validation.kiemTraRong(name, "tbTen", "(*) Vui lòng nhập họ tên.") && validation.kiemTraChuoiKiTu(name, "tbTen", "(*) Tên nhân viên phải là chữ.");
+
+    console.log(name);
 
     isValid &= validation.kiemTraRong(email, "tbEmail", "(*) Vui lòng nhập email.") && validation.kiemTraEmail(email, "tbEmail", "(*) Email chưa đúng định dạng.");
 
@@ -145,7 +150,6 @@ function handleEditNV(taiKhoan) {
     $("#myModal").modal();
     $$("tknv").readOnly = true;
     var nv = dsnv.arr.filter(i => i.taiKhoan == taiKhoan)?.[0];
-    console.log(taiKhoan, nv);
     if (nv) {
         var tknv = $$("tknv").value = nv.taiKhoan;
         var name = $$("name").value = nv.hoTen;
@@ -159,6 +163,8 @@ function handleEditNV(taiKhoan) {
     $$("btnCapNhat").disabled = false;
     $$("btnThemNV").disabled = true;
 }
+
+
 
 
 function setLocalStorage() {
